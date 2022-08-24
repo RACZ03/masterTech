@@ -1,0 +1,8 @@
+<?php
+define("DB_HOST", "localhost");
+define("DB_USER", "qqnmnheetg");
+define("DB_PASS", "Qsb93d32m5");
+define("DB_NAME", "qqnmnheetg");
+define("WEB_URL", app.mastertechpty.com/");
+$link = @mysqli_connect("localhost", "qqnmnheetg", "Qsb93d32m5", "qqnmnheetg");
+?>
