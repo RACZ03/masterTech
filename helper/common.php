@@ -377,6 +377,21 @@ class wms_core {
 		}
 		return $make;
 	}
+
+	/*
+	* @get make by Name
+	*/
+	public function get_make_by_name($con, $makeName) {
+		$make = array();
+		$result = mysqli_query($con,"SELECT * FROM `tbl_make` WHERE make_name = '". $makeName ."'");
+		while($row = mysqli_fetch_array($result)){
+			$make[] = array(
+				'make_id'		=> $row['make_id'],
+				'make_name'		=> $row['make_name']
+			);
+		}
+		return $make;
+	}
 	
 	/*
 	* @get all model list
@@ -390,6 +405,33 @@ class wms_core {
 				'make_id'		=> $row['make_id'],
 				'model_name'	=> $row['model_name'],
 				'make_name'		=> $row['make_name']
+			);
+		}
+		return $model;
+	}
+
+	/*
+	* @get all model list
+	*/
+	public function get_all_car_door_list($con) {
+		$model = array();
+		$result = mysqli_query($con,"SELECT * FROM `tbl_cardoor`");
+		while($row = mysqli_fetch_array($result)){
+			$model[] = array(
+				'door_id'		=> $row['door_id'],
+				'door_name'		=> $row['door_name']
+			);
+		}
+		return $model;
+	}
+
+	public function get_model_by_name($con, $modelName) {
+		$model = array();
+		$result = mysqli_query($con, "SELECT * FROM tbl_model WHERE model_name = '". $modelName ."'");
+		while($row = mysqli_fetch_array($result)){
+			$model[] = array(
+				'model_id'		=> $row['model_id'],
+				'model_name'	=> $row['model_name']
 			);
 		}
 		return $model;
@@ -1009,6 +1051,18 @@ class wms_core {
 		return $data;
 	}
 	
+	/*
+	* @get car model by name
+	*/
+	public function getModelByName($con, $modelName) {
+		$data = array();
+		$result = mysqli_query($con, "SELECT * FROM tbl_model where model_name = '". $modelName ."'");
+		while($row = mysqli_fetch_assoc($result)){
+			$data[] = $row;
+		}
+		return $data;
+	}
+
 	/*
 	* @get all car year list
 	*/
@@ -2292,7 +2346,7 @@ class wms_core {
 				mysqli_query($con,"UPDATE `tbl_buycar` SET `owner_name`='".$data['txtOwnerName']."',`owner_mobile`='".$data['txtMobile']."',`owner_email`='".$data['txtEmail']."',`nid`='".$data['txtNid']."',`company_name`='".$data['txtCompanyname']."',`owner_address`='".$data['txtAddress']."',`car_name`='".$data['txtCarname']."',`car_condition`='".$data['txtCondition']."',`car_color`='".$data['txtCarcolor']."',`car_door`='".$data['txtCardoor']."',`make_id`='".$data['ddlMake']."',`model_id`='".$data['ddlModel']."',`year_id`='".$data['ddlYear']."',`car_reg_date`='".$data['txtRegDate']."',`car_chasis_no`='".$data['txtChasisnumber']."',`car_engine_name`='".$data['txtEnginename']."',`car_note`='".$data['txtNote']."',`car_image`='".$image_url."',`buy_price`='".$data['txtBuyPrice']."',`asking_price`='".$data['txtAskingPrice']."',`buy_given_amount`='".$data['txtGivamount']."',`buy_note`='".$data['txtBuynote']."',`buy_date`='".$this->datepickerDateToMySqlDate($data['txtBuyDate'])."' WHERE buycar_id='".$data['buycar_id']."'");
 			}
 		}
-	}
+	} 
 	
 	/*
 	* @save/update mechanics salery information
@@ -2316,7 +2370,7 @@ class wms_core {
 			if($data['supplier_id'] == '0') {
 				mysqli_query($con,$sql = "INSERT INTO tbl_add_supplier(s_name,s_email,s_address,country_id,state_id,phone_number,fax_number,post_code,website_url,s_password,image) values('$data[txtSName]','$data[txtSEmail]','$data[txtSAddress]','$data[ddlCountry]','$data[ddlState]','$data[txtPhonenumber]','$data[txtFax]','$data[txtPostcode]','$data[txtWebsite]','$data[txtSPassword]','$image_url')");
 				$sup_id = mysqli_insert_id($con);
-				if(!empty($data['manufacturer']) && count($data['manufacturer'] > 0)) {
+				if(!empty($data['manufacturer']) && count($data['manufacturer'])> 0) {
 					foreach($data['manufacturer'] as $mid) {
 						mysqli_query($con,"INSERT INTO tbl_supplier_manufacturer(supplier_id,manufacturer_id) values('$sup_id','$mid')");
 					}
@@ -2324,7 +2378,7 @@ class wms_core {
 			} else {
 				mysqli_query($con,"UPDATE `tbl_add_supplier` SET `s_name`='".$data['txtSName']."',`s_email`='".$data['txtSEmail']."',`s_address`='".$data['txtSAddress']."',`country_id`='".$data['ddlCountry']."',`state_id`='".$data['ddlState']."',`phone_number`='".$data['txtPhonenumber']."', `fax_number`='".$data['txtFax']."', `post_code`='".$data['txtPostcode']."', `website_url`='".$data['txtWebsite']."',`s_password`='".$data['txtSPassword']."',`image`='".$image_url."' WHERE supplier_id='".$data['supplier_id']."'");
 				mysqli_query($con,'DELETE FROM tbl_supplier_manufacturer WHERE supplier_id ='.(int)$data['supplier_id']);
-				if(!empty($data['manufacturer']) && count($data['manufacturer'] > 0)) {
+				if(!empty($data['manufacturer']) && count($data['manufacturer']) > 0) {
 					foreach($data['manufacturer'] as $mid) {
 						mysqli_query($con,"INSERT INTO tbl_supplier_manufacturer(supplier_id,manufacturer_id) values('$data[supplier_id]','$mid')");
 					}
@@ -3443,9 +3497,21 @@ class wms_core {
 			if((int)$data['submit_token'] > 0) {
 				mysqli_query($con,"UPDATE tbl_cardoor SET door_name = '".$data['txtDoor']."' WHERE door_id = ".(int)$data['submit_token']);
 			} else {
-				mysqli_query($con,"INSERT INTO tbl_cardoor(door_name) values('$data[txtDoor]')");
+				mysqli_query($con,"INSERT INTO tbl_cardoor(door_name) values('".$data['txtDoor']."')");
 			}
 		}
+	}
+
+	public function get_car_door_by_name($con, $door_name){
+		$make = array();
+		$result = mysqli_query($con,"SELECT * FROM `tbl_cardoor` WHERE door_name = '".$door_name."'");
+		while($row = mysqli_fetch_array($result)){
+			$make[] = array(
+				'door_id'		=> $row['door_id'],
+				'door_name'		=> $row['door_name']
+			);
+		}
+		return $make;
 	}
 	
 	/*
@@ -3930,6 +3996,23 @@ class wms_core {
 	}
 	
 	/*
+	* getlastBuyCar
+	*/
+	public function getLastBuyCar($con)
+	{
+		$lastBuyCar = array();
+		$result = mysqli_query($con,"select buycar_id from tbl_buycar order by buycar_id desc LIMIT 1;");
+		
+		while($row = mysqli_fetch_array($result)){
+			$lastBuyCar[] = array(
+				'buycar_id'	=> $row['buycar_id'],
+			);
+		}
+
+		return $lastBuyCar;
+	}
+
+	/*
 	* @mailchimp
 	*/
 	public function sendMailChimp($data, $con){
@@ -3950,6 +4033,7 @@ class wms_core {
 			else { return 'Error: ' . $api->errorMessage; }	
 		} else { return 'Please set your API key and LIST ID'; }	
 	}
+	
 	
 	/***END HERE */
 	

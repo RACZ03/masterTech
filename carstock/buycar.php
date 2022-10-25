@@ -156,8 +156,16 @@ function NewGuid() {
     <div id="you" class="alert alert-success alert-dismissable" style="display:<?php echo $addinfo; ?>">
       <button aria-hidden="true" data-dismiss="alert" class="close" type="button"><i class="fa fa-close"></i></button>
       <h4><i class="icon fa fa-check"></i> Success!</h4>
-      <?php echo $msg; ?> </div>
-    <div align="right" style="margin-bottom:1%;"> <a onclick="$('#frmcarstock').submit();" class="btn btn-success" title="" data-toggle="tooltip" data-original-title="Save Information"><i class="fa fa-save"></i></a> <a class="btn btn-warning" title="" data-toggle="tooltip" href="<?php echo WEB_URL; ?>carstock/buycarlist.php" data-original-title="Back"><i class="fa fa-reply"></i></a> </div>
+      <?php echo $msg; ?> 
+	</div>
+    <div align="right" style="margin-bottom:1%;"> 
+		<a onclick="$('#frmcarstock').submit();" class="btn btn-success" title="" data-toggle="tooltip" data-original-title="Save Information">
+			<i class="fa fa-save"></i>
+		</a> 
+		<a class="btn btn-warning" title="" data-toggle="tooltip" href="<?php echo WEB_URL; ?>carstock/buycarlist.php" data-original-title="Back">
+			<i class="fa fa-reply"></i>
+		</a> 
+	</div>
     <form id="frmcarstock" onsubmit="return validateMe();" method="post" enctype="multipart/form-data">
       <div class="box box-success">
         <div class="box-body">
@@ -202,8 +210,8 @@ function NewGuid() {
             <h3 class="box-title"><i class="fa fa-briefcase"></i> Información de la máquina</h3>
           </div>
           <div class="form-group col-md-3">
-            <label for="txtCarname"><span style="color:red;">*</span> Nombre del a máquina :</label>
-            <input type="text" placeholder="Nombre del a máquina" name="txtCarname" id="txtCarname" value="<?php echo $car_name; ?>" class="form-control" required/>
+            <label for="txtCarname"><span style="color:red;">*</span> Nombre de la máquina :</label>
+            <input type="text" placeholder="Nombre de la máquina" name="txtCarname" id="txtCarname" value="<?php echo $car_name; ?>" class="form-control" required/>
           </div>
           <div class="form-group col-md-3">
             <label for="txtCondition"><span style="color:red;">*</span> Condición :</label>
