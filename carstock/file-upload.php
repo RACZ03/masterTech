@@ -173,22 +173,17 @@
         .($data[$i]['maquina'] == null ? '\' \'' : "'" . $data[$i]['maquina'] . "'")
         . ", 0, 'new', ". "'" . $buy_date . "'" .")";
 
-        // echo '<br>';
-        // var_dump($query);
-        // echo '<br>';
-        // echo '<br>';
-        // mysqli_query($link, $query);
         echo '<br><br>';
         var_dump($query);
         mysqli_query($link,$query);
+        time_nanosleep(0, 10000000);
+        $invoice_id = substr(number_format(time() * rand(),0,'',''),0,6);
 
         $lastBuyCar = $wms->getLastBuyCar($link);
 
         // $queryCarSell = "INSERT INTO `tbl_carsell`(`car_id`, `buyer_name`, `buyer_mobile`, `buyer_email`, `sellernid`, `company_name`, `ctl`, `present_address`, `permanent_address`, `selling_price`, `advance_amount`, `due_amount`, `selling_date`, `sell_note`, `is_return`, `invoice_id`, `car_name`, `make_name`, `model_name`, `year_name`, `color_name`, `door_name`, `car_condition`, `car_totalmileage`, `car_chasis_no`, `car_engine_name`, `service_warranty`) VALUES (".$lastBuyCar[0]["buycar_id"].",'".$data[$i]['cliente']."',' ',' ',' ','".$data[$i]['company_name']."',' ','".$data[$i]['direccion']."','".$data[$i]['direccion']."', 0, 0, 0,' selling_d ','".$buy_date."', 0, 0,'".$data[$i]['maquina']."',' ".$data[$i]['maker']." ',' ".$data[$i]['modelo']." ',' ',' ',' ".$data[$i]['juego']." ','new',' ',' ',' ','# Year')";
-        $queryCarSell = "INSERT INTO `tbl_carsell`(`car_id`, `buyer_name`, `buyer_mobile`, `buyer_email`, `sellernid`, `company_name`, `ctl`, `present_address`, `permanent_address`, `selling_price`, `advance_amount`, `due_amount`, `selling_date`, `sell_note`, `is_return`, `invoice_id`, `car_name`, `make_name`, `model_name`, `year_name`, `color_name`, `door_name`, `car_condition`, `car_totalmileage`, `car_chasis_no`, `car_engine_name`, `service_warranty`) VALUES (".$lastBuyCar[0]["buycar_id"].",'".$data[$i]['cliente']."',' ',' ',' ','".$data[$i]['company_name']."',' ','".$data[$i]['direccion']."','".$data[$i]['direccion']."', 0, 0, 0,'".$buy_date."', 0, 0, 0,'".$data[$i]['maquina']."',' ".$data[$i]['maker']." ',' ".$data[$i]['modelo']." ',' ',' ',' ".$data[$i]['juego']." ','new',' ',' ',' ','# Year')";
+        $queryCarSell = "INSERT INTO `tbl_carsell`(`car_id`, `buyer_name`, `buyer_mobile`, `buyer_email`, `sellernid`, `company_name`, `ctl`, `present_address`, `permanent_address`, `selling_price`, `advance_amount`, `due_amount`, `selling_date`, `sell_note`, `is_return`, `invoice_id`, `car_name`, `make_name`, `model_name`, `year_name`, `color_name`, `door_name`, `car_condition`, `car_totalmileage`, `car_chasis_no`, `car_engine_name`, `service_warranty`) VALUES (".$lastBuyCar[0]["buycar_id"].",'".$data[$i]['cliente']."',' ',' ',' ','".$data[$i]['company_name']."',' ','".$data[$i]['direccion']."','".$data[$i]['direccion']."', 0, 0, 0,'".$buy_date."', 0, 0, ".$invoice_id.",'".$data[$i]['maquina']."',' ".$data[$i]['maker']." ',' ".$data[$i]['modelo']." ',' ',' ',' ".$data[$i]['juego']." ','new',' ',' ',' ','# Year')";
         
-        echo '<br><br>';
-        var_dump($queryCarSell);
         mysqli_query($link,$queryCarSell);
     }
     // ownername => ownername

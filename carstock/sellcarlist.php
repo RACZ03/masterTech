@@ -69,7 +69,7 @@ $wmscalc = new wms_calculation();
 				$results = $wms->getSellCarInformationList($link);
 				foreach($results as $row) {					
 					$image = WEB_URL . 'img/no_image.jpg';
-					if(file_exists(ROOT_PATH . '/img/upload/' . $row['car_image']) && $row['car_image'] != ''){
+					if(file_exists('' . '/img/upload/' . $row['car_image']) && $row['car_image'] != ''){
 						$image = WEB_URL . 'img/upload/' . $row['car_image'];
 					}
 				?>
