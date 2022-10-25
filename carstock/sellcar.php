@@ -167,7 +167,7 @@ if (!empty($_POST)) {
         <?php if(!empty($sql)) { $results = $wms->getMultipleRowData($link, $sql);
 				foreach($results as $row) {
 				$image = WEB_URL . 'img/no_image.jpg';
-				if(file_exists('' . '/img/upload/' . $row['car_image']) && $row['car_image'] != ''){
+				if(file_exists('ROOT_PATH' . '/img/upload/' . $row['car_image']) && $row['car_image'] != ''){
 					$image = WEB_URL . 'img/upload/' . $row['car_image']; //car image
 				}
 				$token = true;
